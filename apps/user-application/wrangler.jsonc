@@ -4,7 +4,7 @@
  */
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "user-application",
+  "name": "cf-full-stack",
   "main": "worker/index.ts",
   "compatibility_date": "2025-06-17",
   "assets": {
@@ -14,4 +14,12 @@
   "observability": {
     "enabled": true,
   },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "smart-links-stage",
+      "database_id": "123e7cae-34ea-4741-a2d7-6773b8419711",
+      "experimental_remote": true,
+    },
+  ],
 }
