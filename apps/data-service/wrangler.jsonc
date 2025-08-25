@@ -11,6 +11,20 @@
 	"observability": {
 		"enabled": true,
 	},
+	"durable_objects": {
+		"bindings": [
+			{
+				"name": "EVALUATION_SCHEDULER",
+				"class_name": "EvaluationScheduler",
+			},
+		],
+	},
+	"migrations": [
+		{
+			"tag": "v1",
+			"new_classes": ["EvaluationScheduler"],
+		},
+	],
 	"d1_databases": [
 		{
 			"binding": "DB",
@@ -49,6 +63,18 @@
 			"binding": "DESTINATION_EVALUATION_WORKFLOW",
 			"name": "destination-evaluation-workflow",
 			"class_name": "DestinationEvaluationWorkflow",
+		},
+	],
+	"browser": {
+		"binding": "VIRTUAL_BROWSER",
+	},
+	"ai": {
+		"binding": "AI",
+	},
+	"r2_buckets": [
+		{
+			"bucket_name": "stmart-links-stage",
+			"binding": "BUCKET",
 		},
 	],
 }
