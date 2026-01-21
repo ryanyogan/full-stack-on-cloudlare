@@ -8,8 +8,6 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-import { createFileRoute } from '@tanstack/react-router'
-
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppAuthedRouteImport } from './routes/app/_authed'
@@ -19,21 +17,15 @@ import { Route as AppAuthedEvaluationsRouteImport } from './routes/app/_authed/e
 import { Route as AppAuthedCreateRouteImport } from './routes/app/_authed/create'
 import { Route as AppAuthedLinkIdRouteImport } from './routes/app/_authed/link.$id'
 
-const AppRouteImport = createFileRoute('/app')()
-
-const AppRoute = AppRouteImport.update({
-  id: '/app',
-  path: '/app',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AppAuthedRoute = AppAuthedRouteImport.update({
-  id: '/_authed',
-  getParentRoute: () => AppRoute,
+  id: '/app/_authed',
+  path: '/app',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const AppAuthedIndexRoute = AppAuthedIndexRouteImport.update({
   id: '/',
@@ -72,16 +64,15 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/app': typeof AppAuthedIndexRoute
   '/app/create': typeof AppAuthedCreateRoute
   '/app/evaluations': typeof AppAuthedEvaluationsRoute
   '/app/links': typeof AppAuthedLinksRoute
+  '/app': typeof AppAuthedIndexRoute
   '/app/link/$id': typeof AppAuthedLinkIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/app': typeof AppRouteWithChildren
   '/app/_authed': typeof AppAuthedRouteWithChildren
   '/app/_authed/create': typeof AppAuthedCreateRoute
   '/app/_authed/evaluations': typeof AppAuthedEvaluationsRoute
@@ -102,15 +93,14 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/app'
     | '/app/create'
     | '/app/evaluations'
     | '/app/links'
+    | '/app'
     | '/app/link/$id'
   id:
     | '__root__'
     | '/'
-    | '/app'
     | '/app/_authed'
     | '/app/_authed/create'
     | '/app/_authed/evaluations'
@@ -121,18 +111,11 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AppRoute: typeof AppRouteWithChildren
+  AppAuthedRoute: typeof AppAuthedRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/app': {
-      id: '/app'
-      path: '/app'
-      fullPath: '/app'
-      preLoaderRoute: typeof AppRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/': {
       id: '/'
       path: '/'
@@ -145,7 +128,7 @@ declare module '@tanstack/react-router' {
       path: '/app'
       fullPath: '/app'
       preLoaderRoute: typeof AppAuthedRouteImport
-      parentRoute: typeof AppRoute
+      parentRoute: typeof rootRouteImport
     }
     '/app/_authed/': {
       id: '/app/_authed/'
@@ -205,19 +188,9 @@ const AppAuthedRouteWithChildren = AppAuthedRoute._addFileChildren(
   AppAuthedRouteChildren,
 )
 
-interface AppRouteChildren {
-  AppAuthedRoute: typeof AppAuthedRouteWithChildren
-}
-
-const AppRouteChildren: AppRouteChildren = {
-  AppAuthedRoute: AppAuthedRouteWithChildren,
-}
-
-const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
-
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AppRoute: AppRouteWithChildren,
+  AppAuthedRoute: AppAuthedRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
