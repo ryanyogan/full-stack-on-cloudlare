@@ -19,11 +19,11 @@
 	},
 	"dependencies": {
 		"@repo/data-ops": "workspace:*",
-		"ai": "^5.0.121",
+		"ai": "^6.0.44",
 		"hono": "^4.11.4",
 		"moment": "^2.30.1",
 		"uuid": "^11.1.0",
-		"workers-ai-provider": "^2.0.2",
+		"workers-ai-provider": "^3.0.2",
 		"zod": "^3.25.76"
 	}
 }
